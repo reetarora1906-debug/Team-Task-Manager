@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+@theme {
+  /* Material 3 Color Tokens — EXACTLY as per your design */
+  --color-surface-dim: #dcd8e5;
+  --color-on-secondary: #ffffff;
+  --color-primary-fixed: #e2dfff;
+  --color-on-primary-fixed-variant: #3323cc;
+  --color-on-error: #ffffff;
+  --color-on-tertiary: #ffffff;
+  --color-inverse-surface: #302f39;
+  --color-on-surface: #1b1b24;
+  --color-on-secondary-container: #586377;
+  --color-primary-fixed-dim: #c3c0ff;
+  --color-surface-tint: #4d44e3;
+  --color-on-primary-fixed: #0f0069;
+  --color-primary: #3525cd;
+  --color-primary-dark: #2a1da6;
+  --color-primary-light: #dad7ff;
+  --color-on-background: #1b1b24;
+  --color-primary-container: #4f46e5;
+  --color-secondary-fixed-dim: #bcc7de;
+  --color-tertiary-fixed-dim: #c4c7c9;
+  --color-outline-variant: #c7c4d8;
+  --color-background: #fcf8ff;
+  --color-on-secondary-fixed-variant: #3c475a;
+  --color-surface-variant: #e4e1ee;
+  --color-inverse-on-surface: #f3effc;
+  --color-surface-container: #f0ecf9;
+  --color-outline: #777587;
+  --color-surface-container-high: #eae6f4;
+  --color-on-tertiary-fixed-variant: #444749;
+  --color-surface-bright: #fcf8ff;
+  --color-on-secondary-fixed: #111c2d;
+  --color-on-primary-container: #dad7ff;
+  --color-error: #ba1a1a;
+  --color-on-error-container: #93000a;
+  --color-tertiary-fixed: #e0e3e5;
+  --color-tertiary: #46494b;
+  --color-on-tertiary-container: #dadcde;
+  --color-surface: #fcf8ff;
+  --color-error-container: #ffdad6;
+  --color-on-primary: #ffffff;
+  --color-surface-container-low: #f5f2ff;
+  --color-on-tertiary-fixed: #191c1e;
+  --color-secondary-container: #d5e0f8;
+  --color-secondary-fixed: #d8e3fb;
+  --color-on-surface-variant: #464555;
+  --color-surface-container-highest: #e4e1ee;
+  --color-tertiary-container: #5e6163;
+  --color-secondary: #545f73;
+  --color-inverse-primary: #c3c0ff;
+  --color-surface-container-lowest: #ffffff;
+
+  /* Spacing Scale — Renamed to avoid breaking width/max-width */
+  --spacing-gutter: 16px;
+  --spacing-lg: 24px;
+  --spacing-margin-desktop: 32px;
+  --spacing-xl: 32px;
+  --spacing-sm: 8px;
+  --spacing-margin-mobile: 16px;
+  --spacing-md: 16px;
+  --spacing-xs: 4px;
+  --spacing-base: 4px;
+
+  /* Explicitly restore Widths to prevent collapse */
+  --width-md: 28rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+
+  /* Typography Scale */
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-body-md: "Inter";
+  --font-label-md: "Inter";
+  --font-body-lg: "Inter";
+  --font-headline-lg: "Inter";
+  --font-headline-sm: "Inter";
+  --font-headline-md: "Inter";
+  --font-headline-lg-mobile: "Inter";
+  --font-label-sm: "Inter";
+
+  /* Radius */
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-on-background font-body-md antialiased;
+  }
+}
+
+@layer components {
+  /* Typography Utility Classes */
+  .text-headline-lg { font-size: 32px; line-height: 40px; font-weight: 700; letter-spacing: -0.02em; }
+  .text-headline-md { font-size: 24px; line-height: 32px; font-weight: 600; letter-spacing: -0.01em; }
+  .text-headline-sm { font-size: 18px; line-height: 26px; font-weight: 600; }
+  .text-body-lg { font-size: 16px; line-height: 24px; font-weight: 400; }
+  .text-body-md { font-size: 14px; line-height: 20px; font-weight: 400; }
+  .text-label-md { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.05em; }
+  .text-label-sm { font-size: 11px; line-height: 14px; font-weight: 500; }
+
+  /* Glass Panel for Auth */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .shadow-level-1 { box-shadow: 0px 1px 3px rgba(0,0,0,0.05); }
+  .shadow-level-2 { box-shadow: 0px 4px 12px rgba(0,0,0,0.08); }
+
+  /* Elastic Icon Bounce */
+  .animate-icon-bounce {
+    animation: icon-bounce-elastic 0.5s cubic-bezier(0.36, 0, 0.66, -0.56) both;
+  }
+
+}
+
+@keyframes icon-bounce-elastic {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-10px); }
+  50% { transform: translateY(3px); }
+  75% { transform: translateY(-4px); }
+  100% { transform: translateY(0); }
+}
+
+/* Base resets */
+* { min-width: 0; min-height: 0; }
