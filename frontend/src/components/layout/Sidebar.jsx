@@ -47,8 +47,8 @@ const Sidebar = ({ isOpen, onClose }) => {
         <div className="flex items-center justify-between px-6 h-[72px] border-b border-[var(--color-outline-variant)]/20">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-[var(--radius-default)] bg-[var(--color-primary)] flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" fill="white"></path>
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
               </svg>
             </div>
             <div>

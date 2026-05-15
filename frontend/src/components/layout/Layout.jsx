@@ -25,6 +25,16 @@ const Layout = () => {
                 <HiOutlineMenu className="w-5 h-5 text-[var(--color-on-surface)]" />
               </button>
 
+              {/* Mobile Logo */}
+              <div className="lg:hidden flex items-center gap-2">
+                <div className="w-8 h-8 rounded-[var(--radius-default)] bg-[var(--color-primary)] flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"></path>
+                  </svg>
+                </div>
+                <span className="font-bold text-[var(--color-on-surface)] text-sm">Syncro</span>
+              </div>
+
               {/* Search bar */}
               <div className="hidden sm:flex items-center gap-2 px-3 py-2 bg-[var(--color-surface-container)] rounded-[var(--radius-default)] w-[300px]
                 border border-transparent focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary-light)] ">

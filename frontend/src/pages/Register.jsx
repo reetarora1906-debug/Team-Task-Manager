@@ -28,12 +28,12 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-hidden flex items-center selection:bg-primary selection:text-white font-inter" 
+    <div className="h-screen w-full overflow-hidden flex items-center selection:bg-primary selection:text-white font-inter" 
          style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida/ADBb0uifNlx98Wd_t6wPWJsQQ8VES1uFwSEAS02Pbgv5J0qBOxXYae_XwVHy2FUbmHo4t0XBudvEnrc9iNaMeIY9cPrhsUytoSk11b8OS2f6aFGn52SXAXR1y4ysRrMfjXB9kDLjdN5yV0aODESmrX9FUvkaYmwAXG1cLToW5V00WMQDLQtLFrA9Pgrk0TkBuGbdU2F4WlSKilRtZDGxkfHE7AJM7BrseMhgczC_yBc8GLk5tHP_55k6vXgu5Fj2')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <Toaster position="top-right" />
       
       {/* Left Column */}
-      <div className="hidden lg:flex lg:w-1/2 relative flex-col p-16 justify-center">
+      <div className="hidden lg:flex lg:w-1/2 relative flex-col p-12">
         <div className="animate-in fade-in slide-in-from-left-4 duration-700">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-container to-primary flex items-center justify-center shadow-lg shadow-primary/20">
@@ -69,8 +69,8 @@ const Register = () => {
       </div>
 
       {/* Right Column */}
-      <div className="flex-1 flex items-center justify-center p-8 lg:p-16 overflow-y-auto">
-        <div className="w-full max-w-lg glass-panel p-10 rounded-2xl animate-in fade-in slide-in-from-right-4 duration-700">
+      <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
+        <div className="w-full max-w-lg glass-panel p-8 rounded-2xl animate-in fade-in slide-in-from-right-4 duration-700">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white tracking-tight">Create Workspace</h2>
           </div>
@@ -165,15 +165,15 @@ const Register = () => {
                     key={r}
                     type="button"
                     onClick={() => setRole(r)}
-                    className={`flex flex-col items-center justify-center p-6 rounded-xl border-2  duration-200 cursor-pointer h-24
+                    className={`flex flex-col items-center justify-center p-3 rounded-xl border-2  duration-200 cursor-pointer h-16
                       ${
                         role === r
                           ? 'border-primary bg-primary/30 text-white shadow-lg ring-1 ring-primary/50'
                           : 'border-white/10 bg-white/5 text-slate-400 hover:bg-white/10 hover:border-white/20'
                       }`}
                   >
-                    <span className="text-3xl mb-1">{r === 'Admin' ? '🛡️' : '👤'}</span>
-                    <span className="font-bold text-sm">{r}</span>
+                    <span className="text-xl mb-0.5">{r === 'Admin' ? '🛡️' : '👤'}</span>
+                    <span className="font-bold text-xs">{r}</span>
                   </button>
                 ))}
               </div>
