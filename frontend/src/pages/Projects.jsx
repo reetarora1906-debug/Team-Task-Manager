@@ -63,7 +63,7 @@ const Projects = () => {
         )}
       </div>
 
-      <div className="mb-6 flex items-center gap-2 px-3 py-2.5 bg-white rounded-[var(--radius-default)] border border-[var(--color-outline-variant)]/30 w-full max-w-md focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary-light)] ">
+      <div className="mb-6 flex items-center gap-2 px-3 py-2.5 bg-[var(--color-surface)] rounded-[var(--radius-default)] border border-[var(--color-outline)]/20 w-full max-w-md focus-within:border-[var(--color-primary)] focus-within:ring-2 focus-within:ring-[var(--color-primary-light)] ">
         <HiOutlineSearch className="w-4 h-4 text-[var(--color-outline)]"/>
         <input type="text" placeholder="Search projects..." value={search} onChange={e=>setSearch(e.target.value)} className="bg-transparent outline-none text-sm w-full"/>
       </div>
@@ -80,7 +80,7 @@ const Projects = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 stagger-children">
           {filtered.map(p => (
-            <div key={p._id} className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/15 p-5 hover:shadow-[var(--shadow-md)]  group">
+            <div key={p._id} className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/15 p-5 hover:shadow-[var(--shadow-md)]  group">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-10 h-10 rounded-[var(--radius-default)] bg-[var(--color-primary-light)] flex items-center justify-center group-hover:bg-[var(--color-primary)] transition-colors">
                   <HiOutlineFolder className="w-5 h-5 text-[var(--color-primary)] group-hover:text-white transition-colors"/>
@@ -95,7 +95,7 @@ const Projects = () => {
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-2">
                     {p.members?.slice(0,3).map((m,i) => (
-                      <div key={i} className="w-7 h-7 rounded-full bg-[var(--color-primary-light)] border-2 border-white flex items-center justify-center text-[10px] font-semibold text-[var(--color-primary-dark)]">
+                      <div key={i} className="w-7 h-7 rounded-full bg-[var(--color-primary-light)] border-2 border-[var(--color-surface)] flex items-center justify-center text-[10px] font-semibold text-[var(--color-primary-dark)]">
                         {m.user?.name?.charAt(0)||'?'}
                       </div>
                     ))}
@@ -121,7 +121,7 @@ const Projects = () => {
       {/* Create Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-          <div className="bg-white rounded-[var(--radius-xl)] w-full max-w-md p-6 animate-scale-in shadow-[var(--shadow-xl)]">
+          <div className="bg-[var(--color-surface)] rounded-[var(--radius-xl)] w-full max-w-md p-6 animate-scale-in shadow-[var(--shadow-xl)] border border-[var(--color-outline)]/20">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-headline-sm">Create Project</h2>
               <button onClick={()=>setShowModal(false)} className="p-1 rounded-[var(--radius-default)] hover:bg-[var(--color-surface-container)] cursor-pointer"><HiOutlineX className="w-5 h-5"/></button>

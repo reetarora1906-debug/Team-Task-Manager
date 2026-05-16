@@ -15,20 +15,18 @@ const getTasks = async (req, res) => {
     if (assignee) filter.assignee = assignee;
     if (priority) filter.priority = priority;
 
-    // Members can only see tasks from their projects
-    if (req.user.role === 'Member') {
-      const memberProjects = await Project.find({
-        $or: [
-          { owner: req.user._id },
-          { 'members.user': req.user._id },
-        ],
-      }).select('_id');
+    // Both Admins and Members can only see tasks from their projects
+    const userProjects = await Project.find({
+      $or: [
+        { owner: req.user._id },
+        { 'members.user': req.user._id },
+      ],
+    }).select('_id');
 
-      const projectIds = memberProjects.map((p) => p._id);
-      filter.project = filter.project
-        ? { $in: [filter.project].filter((id) => projectIds.includes(id)) }
-        : { $in: projectIds };
-    }
+    const projectIds = userProjects.map((p) => p._id);
+    filter.project = filter.project
+      ? { $in: [filter.project].filter((id) => projectIds.some(pId => pId.toString() === id.toString())) }
+      : { $in: projectIds };
 
     const tasks = await Task.find(filter)
       .populate('assignee', 'name email avatar')
@@ -177,7 +175,7 @@ const updateTask = async (req, res) => {
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
       updateData,
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     )
       .populate('assignee', 'name email avatar')
       .populate('creator', 'name email avatar')
@@ -215,7 +213,7 @@ const updateTaskAssignee = async (req, res) => {
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
       { assignee: assignee || null },
-      { new: true }
+      { returnDocument: 'after' }
     )
       .populate('assignee', 'name email avatar')
       .populate('creator', 'name email avatar')
@@ -306,7 +304,7 @@ const updateTaskStatus = async (req, res) => {
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
       { status },
-      { new: true }
+      { returnDocument: 'after' }
     )
       .populate('assignee', 'name email avatar')
       .populate('creator', 'name email avatar')
@@ -339,15 +337,14 @@ const getTaskStats = async (req, res) => {
   try {
     let projectFilter = {};
 
-    if (req.user.role === 'Member') {
-      const memberProjects = await Project.find({
-        $or: [
-          { owner: req.user._id },
-          { 'members.user': req.user._id },
-        ],
-      }).select('_id');
-      projectFilter = { project: { $in: memberProjects.map((p) => p._id) } };
-    }
+    // Filter by projects the user has access to
+    const userProjects = await Project.find({
+      $or: [
+        { owner: req.user._id },
+        { 'members.user': req.user._id },
+      ],
+    }).select('_id');
+    projectFilter = { project: { $in: userProjects.map((p) => p._id) } };
 
     const totalTasks = await Task.countDocuments(projectFilter);
     const todoTasks = await Task.countDocuments({ ...projectFilter, status: 'To Do' });
@@ -360,14 +357,12 @@ const getTaskStats = async (req, res) => {
       status: { $ne: 'Completed' },
     });
 
-    const totalProjects = req.user.role === 'Admin'
-      ? await Project.countDocuments()
-      : await Project.countDocuments({
-          $or: [
-            { owner: req.user._id },
-            { 'members.user': req.user._id },
-          ],
-        });
+    const totalProjects = await Project.countDocuments({
+      $or: [
+        { owner: req.user._id },
+        { 'members.user': req.user._id },
+      ],
+    });
 
     // Recent tasks
     const recentTasks = await Task.find(projectFilter)

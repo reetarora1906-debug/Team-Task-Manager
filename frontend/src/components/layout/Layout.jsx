@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { HiOutlineMenu, HiOutlineBell, HiOutlineSearch } from 'react-icons/hi';
+import { HiOutlineMenu, HiOutlineBell, HiOutlineSearch, HiOutlineSun, HiOutlineMoon } from 'react-icons/hi';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Layout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { user } = useAuth();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)]">
+    <div className="flex flex-col min-h-[100dvh] bg-background">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main content */}
       <div className="lg:ml-[260px] min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-lg border-b border-[var(--color-outline-variant)]/20">
+        <header className="sticky top-0 z-30 bg-[var(--color-surface)]/80 backdrop-blur-lg border-b border-[var(--color-outline)]/20">
           <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-[64px]">
             <div className="flex items-center gap-4">
               <button
@@ -48,11 +50,26 @@ const Layout = () => {
             </div>
 
             <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-[var(--radius-default)] hover:bg-[var(--color-surface-container)] text-[var(--color-on-surface-variant)] transition-all duration-300"
+                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {isDarkMode ? (
+                  <HiOutlineSun className="w-5 h-5 text-amber-400" />
+                ) : (
+                  <HiOutlineMoon className="w-5 h-5 text-indigo-600" />
+                )}
+              </button>
+
               {/* Notifications */}
               <button className="relative p-2 rounded-[var(--radius-default)] hover:bg-[var(--color-surface-container)] transition-colors">
                 <HiOutlineBell className="w-5 h-5 text-[var(--color-on-surface-variant)]" />
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-primary)] rounded-full" />
               </button>
+            </div>
 
               {/* User avatar */}
               <div className="flex items-center gap-2 pl-3 border-l border-[var(--color-outline-variant)]/30">

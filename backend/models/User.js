@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    adminTeams: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      }
+    ],
     avatar: {
       type: String,
       default: '',

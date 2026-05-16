@@ -39,7 +39,7 @@ const Activity = () => {
         <p className="text-body-md text-[var(--color-on-surface-variant)] mt-1">Recent updates from your team and projects.</p>
       </div>
 
-      <div className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/15 divide-y divide-[var(--color-outline-variant)]/15">
+      <div className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/15 divide-y divide-[var(--color-outline)]/15">
         {tasks.length === 0 ? (
           <div className="text-center py-16">
             <HiOutlineClock className="w-12 h-12 text-[var(--color-outline-variant)] mx-auto mb-3"/>

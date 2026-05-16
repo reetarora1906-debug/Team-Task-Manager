@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Project = require('../models/Project');
 
 // @desc    Get all users
 // @route   GET /api/users
@@ -12,11 +13,29 @@ const getUsers = async (req, res) => {
       query = { isOnTeam: true };
     }
 
-    const users = await User.find(query).select('name email role isOnTeam avatar createdAt');
+    const users = await User.find(query).select('name email role isOnTeam adminTeams avatar createdAt');
+    
+    // Get all projects owned by the current admin to identify their team members
+    const adminProjects = await Project.find({ owner: req.user._id });
+    const projectMemberIds = new Set();
+    adminProjects.forEach(p => {
+      p.members.forEach(m => projectMemberIds.add(m.user.toString()));
+    });
+
+    // Map users to include a dynamic isOnTeam flag based on the current admin or project membership
+    const mappedUsers = users.map(u => {
+      const userObj = u.toObject();
+      const isExplicitlyAdded = userObj.adminTeams?.some(adminId => adminId.toString() === req.user._id.toString());
+      const isProjectMember = projectMemberIds.has(userObj._id.toString());
+      
+      userObj.isOnTeam = isExplicitlyAdded || isProjectMember || false;
+      return userObj;
+    });
+
     res.json({
       success: true,
-      count: users.length,
-      data: users,
+      count: mappedUsers.length,
+      data: mappedUsers,
     });
   } catch (error) {
     console.error('Get users error:', error);
@@ -61,7 +80,7 @@ const updateProfile = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name, email, avatar },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
 
     res.json({
@@ -120,17 +139,33 @@ const updateUserRole = async (req, res) => {
 const toggleTeamMembership = async (req, res) => {
   try {
     const { isOnTeam } = req.body;
+    
+    const update = isOnTeam 
+      ? { $addToSet: { adminTeams: req.user._id } }
+      : { $pull: { adminTeams: req.user._id } };
+
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { isOnTeam },
-      { new: true }
-    ).select('name email role isOnTeam avatar');
+      update,
+      { returnDocument: 'after' }
+    ).select('name email role adminTeams avatar');
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    res.json({ success: true, data: user });
+    // If removing from team, also remove from all projects owned by this admin
+    if (!isOnTeam) {
+      await Project.updateMany(
+        { owner: req.user._id },
+        { $pull: { members: { user: req.params.id } } }
+      );
+    }
+
+    const userObj = user.toObject();
+    userObj.isOnTeam = isOnTeam;
+
+    res.json({ success: true, data: userObj });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error updating team membership' });
   }

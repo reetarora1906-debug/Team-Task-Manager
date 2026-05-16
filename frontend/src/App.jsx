@@ -44,10 +44,12 @@ const App = () => {
         toastOptions={{
           duration: 3000,
           style: {
+            background: 'var(--color-surface)',
+            color: 'var(--color-on-surface)',
+            border: '1px solid var(--color-outline-variant)',
             fontFamily: 'Inter, sans-serif',
             fontSize: '14px',
-            borderRadius: '8px',
-            boxShadow: '0px 4px 12px rgba(0,0,0,0.08)',
+            borderRadius: '12px',
           },
         }}
       />

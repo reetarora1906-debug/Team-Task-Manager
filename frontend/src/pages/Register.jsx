@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
@@ -12,6 +12,15 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const { register, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
+
+  // Force dark background on document root to prevent white gaps
+  useEffect(() => {
+    const originalBg = document.documentElement.style.backgroundColor;
+    document.documentElement.style.backgroundColor = '#020617';
+    return () => {
+      document.documentElement.style.backgroundColor = originalBg;
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,9 +37,8 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen w-full overflow-hidden flex items-center selection:bg-primary selection:text-white font-inter" 
-         style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida/ADBb0uifNlx98Wd_t6wPWJsQQ8VES1uFwSEAS02Pbgv5J0qBOxXYae_XwVHy2FUbmHo4t0XBudvEnrc9iNaMeIY9cPrhsUytoSk11b8OS2f6aFGn52SXAXR1y4ysRrMfjXB9kDLjdN5yV0aODESmrX9FUvkaYmwAXG1cLToW5V00WMQDLQtLFrA9Pgrk0TkBuGbdU2F4WlSKilRtZDGxkfHE7AJM7BrseMhgczC_yBc8GLk5tHP_55k6vXgu5Fj2')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <Toaster position="top-right" />
+    <div className="h-screen w-full overflow-y-auto flex items-center selection:bg-primary selection:text-white font-inter bg-[#020617]" 
+         style={{ backgroundImage: "url('/bg-auth.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
       
       {/* Left Column */}
       <div className="hidden lg:flex lg:w-1/2 relative flex-col p-12">
@@ -47,7 +55,7 @@ const Register = () => {
             </div>
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-md">
-            Build your team's <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed-dim to-primary-fixed">dream workflow.</span>
+            Build your team's <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400">dream workflow.</span>
           </h2>
 
           <div className="space-y-6 mt-8">
@@ -71,6 +79,7 @@ const Register = () => {
       {/* Right Column */}
       <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
         <div className="w-full max-w-lg glass-panel p-8 rounded-2xl animate-in fade-in slide-in-from-right-4 duration-700">
+          
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white tracking-tight">Create Workspace</h2>
           </div>
@@ -99,8 +108,8 @@ const Register = () => {
               <div className="group">
                 <label className="block text-sm font-medium text-slate-200 mb-1.5 text-left">Full Name</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ">
-                    <span className="material-symbols-outlined text-slate-400 group-focus-within:animate-icon-bounce group-focus-within:text-primary" style={{ fontSize: '18px' }}>person</span>
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                    <span className="material-symbols-outlined text-slate-400" style={{ fontSize: '18px' }}>person</span>
                   </div>
                   <input
                     type="text"
@@ -116,8 +125,8 @@ const Register = () => {
               <div className="group">
                 <label className="block text-sm font-medium text-slate-200 mb-1.5 text-left">Work Email</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ">
-                    <span className="material-symbols-outlined text-slate-400 group-focus-within:animate-icon-bounce group-focus-within:text-primary" style={{ fontSize: '18px' }}>mail</span>
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                    <span className="material-symbols-outlined text-slate-400" style={{ fontSize: '18px' }}>mail</span>
                   </div>
                   <input
                     type="email"
@@ -134,8 +143,8 @@ const Register = () => {
             <div className="group">
               <label className="block text-sm font-medium text-slate-200 mb-1.5 text-left">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ">
-                  <span className="material-symbols-outlined text-slate-400 group-focus-within:animate-icon-bounce group-focus-within:text-primary" style={{ fontSize: '18px' }}>lock</span>
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                  <span className="material-symbols-outlined text-slate-400" style={{ fontSize: '18px' }}>lock</span>
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -191,7 +200,7 @@ const Register = () => {
 
           <div className="mt-10 text-center text-sm text-slate-300">
             Already have an account? 
-            <Link to="/login" className="font-bold text-primary-fixed-dim hover:text-white transition-colors ml-1">
+            <Link to="/login" className="font-bold text-blue-400 hover:text-blue-300 transition-colors ml-1">
               Sign in
             </Link>
           </div>

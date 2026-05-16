@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,13 +11,24 @@ const Login = () => {
   const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
+  // Force dark background on document root to prevent white gaps
+  useEffect(() => {
+    const originalBg = document.documentElement.style.backgroundColor;
+    document.documentElement.style.backgroundColor = '#020617';
+    return () => {
+      document.documentElement.style.backgroundColor = originalBg;
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       await login(email, password);
       toast.success('Welcome back!');
-      navigate('/dashboard');
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 100);
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
     } finally {
@@ -26,9 +37,8 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-full overflow-hidden flex items-center selection:bg-primary selection:text-white font-inter" 
-         style={{ backgroundImage: "url('https://lh3.googleusercontent.com/aida/ADBb0uifNlx98Wd_t6wPWJsQQ8VES1uFwSEAS02Pbgv5J0qBOxXYae_XwVHy2FUbmHo4t0XBudvEnrc9iNaMeIY9cPrhsUytoSk11b8OS2f6aFGn52SXAXR1y4ysRrMfjXB9kDLjdN5yV0aODESmrX9FUvkaYmwAXG1cLToW5V00WMQDLQtLFrA9Pgrk0TkBuGbdU2F4WlSKilRtZDGxkfHE7AJM7BrseMhgczC_yBc8GLk5tHP_55k6vXgu5Fj2')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <Toaster position="top-right" />
+    <div className="h-screen w-full overflow-y-auto flex items-center selection:bg-primary selection:text-white font-inter bg-[#020617]" 
+         style={{ backgroundImage: "url('/bg-auth.png')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
       
       {/* Left Column */}
       <div className="hidden lg:flex lg:w-1/2 relative flex-col p-12">
@@ -45,7 +55,7 @@ const Login = () => {
             </div>
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 drop-shadow-md">
-            Ship work faster with your team in <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed-dim to-primary-fixed">one workspace</span>.
+            Ship work faster with your team in <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400">one workspace</span>.
           </h1>
           <p className="text-slate-200 text-lg mb-10 max-w-lg leading-relaxed">
             Plan projects, track tasks across boards, and surface insights — without the chaos of switching tools.
@@ -72,6 +82,7 @@ const Login = () => {
       {/* Right Column */}
       <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
         <div className="w-full max-w-md glass-panel p-8 rounded-2xl animate-in fade-in slide-in-from-right-4 duration-700">
+          
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white tracking-tight">Welcome back</h2>
           </div>
@@ -99,8 +110,8 @@ const Login = () => {
             <div className="group">
               <label className="block text-sm font-medium text-slate-200 mb-1.5 text-left w-full">Email Address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ">
-                  <span className="material-symbols-outlined text-slate-400 group-focus-within:animate-icon-bounce group-focus-within:text-primary" style={{ fontSize: '20px' }}>mail</span>
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                  <span className="material-symbols-outlined text-slate-400" style={{ fontSize: '20px' }}>mail</span>
                 </div>
                 <input
                   type="email"
@@ -116,11 +127,11 @@ const Login = () => {
             <div className="group">
               <div className="flex items-center justify-between mb-1.5">
                 <label className="block text-sm font-medium text-slate-200">Password</label>
-                <a className="text-[11px] font-bold text-primary-fixed-dim hover:text-white transition-colors uppercase tracking-wider" href="#">Forgot password?</a>
+                <a className="text-[11px] font-bold text-blue-400 hover:text-blue-300 transition-colors uppercase tracking-wider" href="#">Forgot password?</a>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none ">
-                  <span className="material-symbols-outlined text-slate-400 group-focus-within:animate-icon-bounce group-focus-within:text-primary" style={{ fontSize: '20px' }}>lock</span>
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none z-10">
+                  <span className="material-symbols-outlined text-slate-400" style={{ fontSize: '20px' }}>lock</span>
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -154,7 +165,7 @@ const Login = () => {
 
           <div className="mt-10 text-center text-sm text-slate-300">
             Don't have an account? 
-            <Link to="/register" className="font-bold text-primary-fixed-dim hover:text-white transition-colors ml-1">
+            <Link to="/register" className="font-bold text-blue-400 hover:text-blue-300 transition-colors ml-1">
               Sign up free
             </Link>
           </div>

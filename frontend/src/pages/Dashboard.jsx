@@ -56,7 +56,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-8 stagger-children">
         {cards.map(c => (
-          <div key={c.label} className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/20 p-5 hover:shadow-[var(--shadow-md)]  duration-300">
+          <div key={c.label} className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/20 p-5 hover:shadow-[var(--shadow-md)]  duration-300">
             <div className="flex items-center justify-between mb-3">
               <span className="text-label-md text-[var(--color-on-surface-variant)]">{c.label}</span>
               <div className="w-9 h-9 rounded-[var(--radius-default)] flex items-center justify-center" style={{backgroundColor:c.bg}}>
@@ -69,7 +69,7 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/20 p-6">
+        <div className="xl:col-span-2 bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/20 p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-headline-sm">Active Projects</h2>
             <Link to="/projects" className="text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dark)]">View all →</Link>
@@ -102,7 +102,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/20 p-6">
+        <div className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/20 p-6">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-headline-sm">Recent Activity</h2>
             <Link to="/activity" className="text-sm font-medium text-[var(--color-primary)]">View all →</Link>
@@ -128,7 +128,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="mt-6 bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/20 p-6">
+      <div className="mt-6 bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/20 p-6">
         <h2 className="text-headline-sm mb-5">Task Status Breakdown</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -149,7 +149,7 @@ const Dashboard = () => {
         </div>
       </div>
       
-      <div className="mt-6 bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/20 p-6">
+      <div className="mt-6 bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/20 p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-headline-sm">Performance Tracking</h2>
           <div className="flex items-center gap-2">

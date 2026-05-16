@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const Project = require('../models/Project');
 const Task = require('../models/Task');
+const User = require('../models/User');
 
 // @desc    Get all projects
 // @route   GET /api/projects
@@ -9,18 +10,14 @@ const getProjects = async (req, res) => {
   try {
     let query;
 
-    if (req.user.role === 'Admin') {
-      // Admin can see all projects
-      query = Project.find();
-    } else {
-      // Members can only see projects they're part of
-      query = Project.find({
-        $or: [
-          { owner: req.user._id },
-          { 'members.user': req.user._id },
-        ],
-      });
-    }
+    // Both Admins and Members only see projects they're part of
+    // This ensures that different Admins have their own private workspaces
+    query = Project.find({
+      $or: [
+        { owner: req.user._id },
+        { 'members.user': req.user._id },
+      ],
+    });
 
     const projects = await query
       .populate('owner', 'name email avatar')
@@ -74,19 +71,17 @@ const getProject = async (req, res) => {
       });
     }
 
-    // Check access for Members
-    if (req.user.role === 'Member') {
-      const isMember = project.members.some(
-        (m) => m.user._id.toString() === req.user._id.toString()
-      );
-      const isOwner = project.owner._id.toString() === req.user._id.toString();
+    // Check access for all users (ensure they are owner or member)
+    const isMember = project.members.some(
+      (m) => m.user._id.toString() === req.user._id.toString()
+    );
+    const isOwner = project.owner._id.toString() === req.user._id.toString();
 
-      if (!isMember && !isOwner) {
-        return res.status(403).json({
-          success: false,
-          message: 'Not authorized to access this project',
-        });
-      }
+    if (!isMember && !isOwner) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to access this project',
+      });
     }
 
     // Get tasks for this project
@@ -176,7 +171,7 @@ const updateProject = async (req, res) => {
     project = await Project.findByIdAndUpdate(
       req.params.id,
       { name, description, status, category, deadline },
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     )
       .populate('owner', 'name email avatar')
       .populate('members.user', 'name email avatar role');
@@ -289,11 +284,24 @@ const removeMember = async (req, res) => {
       });
     }
 
+    // Ensure only the project owner can remove members
+    if (project.owner.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized to remove members from this project',
+      });
+    }
+
     project.members = project.members.filter(
       (m) => m.user.toString() !== req.params.userId
     );
 
     await project.save();
+
+    // Also remove from admin's explicit team list to maintain sync
+    await User.findByIdAndUpdate(req.params.userId, {
+      $pull: { adminTeams: req.user._id }
+    });
 
     const updatedProject = await Project.findById(req.params.id)
       .populate('owner', 'name email avatar')

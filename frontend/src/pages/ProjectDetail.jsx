@@ -121,7 +121,7 @@ const ProjectDetail = () => {
       </div>
 
       {/* Team Members */}
-      <div className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/15 p-5 mb-6">
+      <div className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/15 p-5 mb-6">
         <h3 className="text-label-md text-[var(--color-on-surface-variant)] mb-3">TEAM MEMBERS</h3>
         <div className="flex flex-wrap gap-2">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-primary-light)]/50 border border-[var(--color-primary)]/20">
@@ -152,7 +152,7 @@ const ProjectDetail = () => {
               </div>
               <div className="space-y-3">
                 {colTasks.map(task => (
-                  <div key={task._id} className="bg-white rounded-[var(--radius-default)] border border-[var(--color-outline-variant)]/15 p-3.5 hover:shadow-[var(--shadow-sm)] ">
+                  <div key={task._id} className="bg-[var(--color-surface)] rounded-[var(--radius-default)] border border-[var(--color-outline)]/15 p-3.5 hover:shadow-[var(--shadow-sm)] ">
                     <div className="flex items-start justify-between mb-2">
                       <h4 className="text-sm font-medium text-[var(--color-on-surface)] flex-1">{task.title}</h4>
                       {user?.role === 'Admin' && (
@@ -187,7 +187,7 @@ const ProjectDetail = () => {
                             value={task.assignee?._id || ''} 
                             onChange={e => handleAssigneeChange(task._id, e.target.value)} 
                             disabled={task.status === 'Completed'}
-                            className={`w-full text-xs px-2 py-1 rounded border border-[var(--color-outline-variant)]/30 bg-[var(--color-surface-container-low)] outline-none cursor-pointer ${task.status === 'Completed' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`w-full text-xs px-2 py-1 rounded border border-[var(--color-outline)]/30 bg-[var(--color-surface-container)] text-[var(--color-on-surface)] outline-none cursor-pointer ${task.status === 'Completed' ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                             <option value="">Unassigned</option>
                             {[project.owner, ...project.members.map(m => m.user)].filter(Boolean).map(u => (
@@ -213,7 +213,7 @@ const ProjectDetail = () => {
       {/* Create Task Modal */}
       {showTaskModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-          <div className="bg-white rounded-[var(--radius-xl)] w-full max-w-md p-6 shadow-[var(--shadow-xl)]">
+          <div className="bg-[var(--color-surface)] rounded-[var(--radius-xl)] w-full max-w-md p-6 shadow-[var(--shadow-xl)] border border-[var(--color-outline)]/20">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-headline-sm">New Task</h2>
               <button onClick={() => setShowTaskModal(false)} className="p-1 rounded-[var(--radius-default)] hover:bg-[var(--color-surface-container)] cursor-pointer"><HiOutlineX className="w-5 h-5"/></button>
@@ -265,7 +265,7 @@ const ProjectDetail = () => {
       {/* Add Member Modal */}
       {showMemberModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40">
-          <div className="bg-white rounded-[var(--radius-xl)] w-full max-w-md p-6 shadow-[var(--shadow-xl)]">
+          <div className="bg-[var(--color-surface)] rounded-[var(--radius-xl)] w-full max-w-md p-6 shadow-[var(--shadow-xl)] border border-[var(--color-outline)]/20">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-headline-sm">Add Member</h2>
               <button onClick={() => setShowMemberModal(false)} className="p-1 cursor-pointer"><HiOutlineX className="w-5 h-5"/></button>

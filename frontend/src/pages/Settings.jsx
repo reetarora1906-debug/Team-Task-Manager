@@ -29,7 +29,7 @@ const Settings = () => {
         <p className="text-body-md text-[var(--color-on-surface-variant)] mt-1">Manage your account settings</p>
       </div>
 
-      <div className="bg-white rounded-[var(--radius-lg)] border border-[var(--color-outline-variant)]/15 p-6">
+      <div className="bg-[var(--color-surface)] rounded-[var(--radius-lg)] border border-[var(--color-outline)]/15 p-6">
         <h2 className="text-headline-sm mb-5">Profile</h2>
         <div className="flex items-center gap-4 mb-6">
           <div className="w-16 h-16 rounded-full bg-[var(--color-primary-light)] flex items-center justify-center text-2xl font-bold text-[var(--color-primary-dark)]">

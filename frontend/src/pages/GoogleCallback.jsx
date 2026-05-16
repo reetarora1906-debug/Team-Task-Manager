@@ -1,18 +1,23 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { authAPI } from '../services/api';
+import toast from 'react-hot-toast';
 
 const GoogleCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  const hasFired = useRef(false);
 
   useEffect(() => {
+    if (hasFired.current) return;
+    hasFired.current = true;
     const token = searchParams.get('token');
     const error = searchParams.get('error');
 
     if (error) {
+      toast.error('Google login failed');
       navigate('/login?error=oauth_failed');
       return;
     }
@@ -23,8 +28,12 @@ const GoogleCallback = () => {
         const userData = res.data.data;
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
+        toast.success('Welcome back!');
         navigate('/dashboard');
-      }).catch(() => navigate('/login'));
+      }).catch(() => {
+        toast.error('Failed to verify user');
+        navigate('/login');
+      });
     } else {
       navigate('/login');
     }
