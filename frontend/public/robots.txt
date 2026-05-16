@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemaps (Optional but good for trust)
+# Sitemap: https://team-task-manager-five-blush.vercel.app/sitemap.xml
